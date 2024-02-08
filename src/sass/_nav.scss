@@ -1,0 +1,51 @@
+.nav {
+	padding: 20px;
+	margin: 0px auto;
+	display: flex;
+	background: #dddd;
+	color: white;
+	font-family: 'Raleway', sans-serif;
+	.container {
+		display: flex;
+		justify-content: space-around;
+	}
+	a {
+		color: black;
+		padding: 10px;
+		position: relative;
+		font-size: 25px;
+		text-decoration: none;
+	}
+	.link,
+	.link::after,
+	.link::before {
+		transition: 0.2s;
+	}
+	.one.active,
+	.two.active,
+	.three.active {
+		font-weight: 550;
+	}
+	.one,
+	.two,
+	.three {
+		&::after,
+		&::before {
+			content: '\2022';
+			position: absolute;
+			bottom: -0.5em;
+			left: 50%;
+			transform: translateX(-50%);
+			font-weight: bold;
+			visibility: hidden;
+		}
+		&:hover::after,
+		&:hover::before {
+			visibility: visible;
+		}
+		&.active::after,
+		&.active::before {
+			visibility: visible;
+		}
+	}
+}
