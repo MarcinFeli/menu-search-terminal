@@ -3,7 +3,6 @@ const CUSTOM_COMMANDS = {
 		msg: 'Hello :)',
 	},
 };
-
 class Terminal {
 	constructor() {
 		this.history = [];
@@ -13,19 +12,19 @@ class Terminal {
 			help: () => this.help(),
 			quote: () => this.fetchQuote(),
 			double: (arg) => this.double(arg),
-			...CUSTOM_COMMANDS,
 		};
 		this.input = document.getElementById('terminal-input');
 		this.output = document.getElementById('terminal-output');
 		this.input.addEventListener('keydown', this.handleInput.bind(this));
 		this.input.focus();
 
-		this.outputMessage('Last login: Tue, 30 Jan 2024 10:43:20 GMT');
+		this.outputMessage(`Last login: ${new Date().toUTCString()}`);
 	}
 
 	handleInput(event) {
-		if (event.key === 'Enter') {
+		if (event.key === 'Enter' && this.input.value != '') {
 			const command = this.input.value.trim();
+			this.outputMessage(`you: ${command}`);
 			this.history.push(command);
 			this.currentIndex = this.history.length;
 			this.processCommand(command);
@@ -51,16 +50,16 @@ class Terminal {
 
 	processCommand(command) {
 		const [cmd, arg] = command.split(' ');
-		const lowerCaseCmd = cmd.toLowerCase(); // Convert command to lowercase
+		const lowerCaseCmd = cmd.toLowerCase();
 		if (lowerCaseCmd in this.commands) {
 			const commandFunction = this.commands[lowerCaseCmd];
 			if (typeof commandFunction === 'function') {
 				commandFunction(arg);
 			} else {
-				this.outputMessage(
-					'Command not found. Type "help" for a list of available commands.'
-				);
+				return this.outputCommandNotFound()
 			}
+		} else if (lowerCaseCmd in CUSTOM_COMMANDS) {
+			this.handleCustomCommand(lowerCaseCmd, arg);
 		} else {
 			this.outputCommandNotFound();
 		}
@@ -72,7 +71,10 @@ class Terminal {
 
 	help() {
 		const commandsList = Object.keys(this.commands).join(', ');
-		this.outputMessage(`Available commands: ${commandsList}`);
+		const customCommands = Object.keys(CUSTOM_COMMANDS).join(', ');
+		this.outputMessage(
+			`Available commands: ${commandsList}, ${customCommands}`
+		);
 	}
 
 	fetchQuote() {
@@ -93,13 +95,17 @@ class Terminal {
 		}
 	}
 
+	handleCustomCommand(command, arg) {
+		this.outputMessage(`terminal: ${CUSTOM_COMMANDS[command].msg}`);
+	}
+
 	outputMessage(message) {
-		this.output.innerHTML += `<div>you: ${message}</div>`;
+		this.output.innerHTML += `<div>${message}</div>`;
 	}
 
 	outputCommandNotFound() {
 		this.outputMessage(
-			'Command not found. Type "help" for a list of available commands.'
+			'terminal: Command not found. Type "help" for a list of available commands.'
 		);
 	}
 }

@@ -21,7 +21,7 @@ inputBox.addEventListener('input', function () {
 		} else {
 			spinner.classList.add('active');
 			fetch(
-				`https://dummyjson.com/products/search?q=${searchTerm}&limit=5&delay=1000`
+				`https://dummyjson.com/products/search?q=${searchTerm}&limit=5`
 			)
 				.then((res) => res.json())
 				.then((data) => {

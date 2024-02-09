@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 	const submenuToggles = document.querySelectorAll('.submenu-toggle');
 
-	function handleToggleEnter(toggle, iconClass, submenuDisplay) {
+	function handleToggleEnter(toggle, iconClass, submenuDisplay, opacity) {
 		const icon = toggle.querySelector(iconClass);
 		const submenu = toggle.querySelector('.submenu');
 
 		if (submenu) {
+			setTimeout(function() {
+				submenu.style.opacity = opacity
+			},100)
 			submenu.style.display = submenuDisplay;
 			if (icon) {
 				icon.style.transition = '0.2s';
@@ -26,7 +29,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		if (!isInBounds) {
 			const submenu = toggle.querySelector('.submenu');
-			if (submenu) submenu.style.display = 'none';
+			if (submenu) {
+				setTimeout(function() {
+					submenu.style.display = 'none';
+				},200)
+				submenu.style.opacity = '0'
+			}
 			if (icon) icon.style.transform = 'rotate(0deg)';
 		}
 	}
@@ -34,9 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	submenuToggles.forEach(function (toggle) {
 		toggle.addEventListener('mouseenter', function () {
 			if (toggle.classList.contains('makeup')) {
-				handleToggleEnter(toggle, '.make-icon', 'block');
+				handleToggleEnter(toggle, '.make-icon', 'block', '1');
 			} else if (toggle.classList.contains('face')) {
-				handleToggleEnter(toggle, '.face-icon', 'flex');
+				handleToggleEnter(toggle, '.face-icon', 'flex', '1');
 			}
 		});
 
