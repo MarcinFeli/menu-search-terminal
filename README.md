@@ -35,4 +35,7 @@ So we can enter phrases such as "Samsung" or "iphone"
 ### 3) Terminal 
 
 Imitation of the system terminal. To get the available commands, type `help`.
+For command `double` we need to pass argument which is number we want to double.
+example `double 2` give us `2*2=4`
+
 
